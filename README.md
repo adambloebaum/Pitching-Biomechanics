@@ -14,6 +14,7 @@ A Dash dashboard written in Python that allows the user to predict pitching velo
 These were selected by determining Rsquared coefficients for each metric with pitch velocity. I chose only metrics that involved the speed or positioning achieved by the thrower due to their increased trainability compared to metrics like energy flow or joint moments which I deemed to be more of a product of "good" pitching mechanics. I also wanted to make sure my selections covered different areas of the throw: shoulder, torso, hips.
 
 Rsquared values:
+
 ('shoulder_horizontal_abduction_fp', 0.14310639482494072)
 
 ('max_shoulder_external_rotation', 0.11000169464538753)
