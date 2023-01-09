@@ -1,9 +1,9 @@
 # pitching-biomechanics
 All data acquired through Driveline Baseball's github repository "openbiomechanics" @drivelineresearch by Kyle Boddy and Kyle Wasserberger.
-## Biomech Viewer:
+## biomech vis:
 A Dash dashboard written in Python for visualizing and exploring the relationships between different pitching biomechanical metrics and throwing velocity. Helpful in discerning R^2 values and relationship trends, as well as the population distribution of different metrics.
 
-## Velocity Predictor:
+## velocity predictor:
 A Dash dashboard written in Python that allows the user to predict pitching velocity by inputting five biomechanical metrics:
 1. shoulder horizontal abduction at foot plant
 2. max shoulder external rotation
