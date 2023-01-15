@@ -28,3 +28,6 @@ Rsquared values:
 ('rotation_hip_shoulder_separation_fp', 0.0967202287144392)
 
 A deep learning neural network is used to establish weight and bias for each of the four metrics. Mean absolute error is used to plot loss and over 200 epochs it is minimized to just under 2.5 mph.
+
+https://user-images.githubusercontent.com/96801448/212527424-d88d4e3c-2a3c-4d46-9fe5-636d3a0e408d.mp4
+
