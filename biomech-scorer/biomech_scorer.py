@@ -21,7 +21,7 @@ results = {}
 # loop through metrics and assigning percentile values in the dict
 for metric in metrics:
     population = poi_metrics[metric]
-    individual = player_metrics[metric].item()
+    individual = sample_metrics[metric].item()
     percentile = round(scipy.stats.percentileofscore(population, individual))
     results[metric] = percentile
 
