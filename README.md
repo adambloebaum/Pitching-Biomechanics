@@ -32,4 +32,4 @@ A deep learning neural network is used to establish weight and bias for each of 
 https://user-images.githubusercontent.com/96801448/212527424-d88d4e3c-2a3c-4d46-9fe5-636d3a0e408d.mp4
 
 ## biomech scorer (composite score coming soon)
-Given a CSV file of an athlete's biomechanical data it will return percentile rankings for all biomehanical metrics in the form of a CSV. It will also return a composite biomechanics score calculated using metric weights using a similar neural network setup from the velocity predictor and the percentile rankings.
+Given a CSV file of an athlete's biomechanical data it will return percentile rankings for all biomehanical metrics in the form of a CSV. It will also return a composite biomechanics score calculated using metric weights using another deep learning neural network and the percentile rankings.
