@@ -62,9 +62,6 @@ del r_squared_values[0]
 del percentiles[0]
 del percentiles[0]
 
-# scale percentiles to 0 to 1.0
-basis_points = [x / 100 for x in percentiles]
-
 # scale Rsquared values relative to sum
 weights = r_squared_values / sum(r_squared_values)
 
@@ -72,9 +69,9 @@ weights = r_squared_values / sum(r_squared_values)
 composite = []
 
 # loop through weights and basis_points and find product
-for weight in weights:
-    for point in basis_points:
-        composite.append(weight * point)
+for i in range(len(weights)):
+    num = weights[i] * percentiles[i]
+    composite.append(num)
 
 # sum product
 score = round(sum(composite))
