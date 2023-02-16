@@ -34,5 +34,4 @@ https://user-images.githubusercontent.com/96801448/212527424-d88d4e3c-2a3c-4d46-
 ## biomech scorer
 A Dash dashboard that takes an input file of the appropriate length and type (1x81 and csv/xls) which is the same as one row of the poi_metrics.csv data. It will visualize weighted percentile values with a polar chart for 6 different areas: arm action, arm velos, rotation, pelvis, lead leg block, and cog. Each column was manually put into one of the six categories and the individual's percentile rankings are combined with column Rsquared values with pitch velocity to determine the six scores. Additionally code will export a sorted list of an athlete's percentile rankings for each metric, as well as print a composite (total) biomechanics score.
 
-https://user-images.githubusercontent.com/96801448/219224476-25255e47-7a73-428d-a645-e480f574efa9.jpg
-
+![biomech_scorer](https://user-images.githubusercontent.com/96801448/219224868-fd0fc58b-af8c-4271-8b0c-6b0f92258fe9.jpg)
