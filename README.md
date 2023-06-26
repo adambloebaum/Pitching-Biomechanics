@@ -24,3 +24,4 @@ A Dash dashboard that allows the user to predict pitching velocity by inputting 
 
 These were selected by determining Rsquared coefficients for each metric with pitch velocity. I chose only metrics that involved the speed or positioning achieved by the thrower due to their ability to be trained rather than metrics like energy flow or joint moments which I deemed to be more of a product of those positions and velocities. I also wanted to make sure my selections covered different areas of the throw: shoulder, torso, hips.
 
+https://user-images.githubusercontent.com/96801448/212527424-d88d4e3c-2a3c-4d46-9fe5-636d3a0e408d.mp4
