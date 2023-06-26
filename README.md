@@ -11,7 +11,7 @@ A Dash dashboard for visualizing and exploring the relationships between differe
 
 https://user-images.githubusercontent.com/96801448/211731114-fbe28913-286e-4cb4-9c78-05e27faf4649.mp4
 
-## velocity predictor:
+## velocity predictor (see newer version):
 A Dash dashboard that allows the user to predict pitching velocity by inputting five biomechanical metrics:
 1. shoulder horizontal abduction at foot plant
 2. max shoulder external rotation
