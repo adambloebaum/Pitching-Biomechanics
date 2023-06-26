@@ -23,3 +23,4 @@ A Dash dashboard that allows the user to predict pitching velocity by inputting 
 5. rotational hip-shoulder separation at foot plant
 
 These were selected by determining Rsquared coefficients for each metric with pitch velocity. I chose only metrics that involved the speed or positioning achieved by the thrower due to their ability to be trained rather than metrics like energy flow or joint moments which I deemed to be more of a product of those positions and velocities. I also wanted to make sure my selections covered different areas of the throw: shoulder, torso, hips.
+
