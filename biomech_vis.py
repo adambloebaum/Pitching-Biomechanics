@@ -8,7 +8,7 @@ import pandas as pd
 app = dash.Dash('Biomech Vis')
 
 # load in data
-poi_metrics = pd.read_csv('poi_metrics.csv', index_col=False)
+poi_metrics = pd.read_csv('biomech_pitching_poi_metrics.csv', index_col=False)
 
 # preprocessing
 poi_metrics = poi_metrics.dropna()

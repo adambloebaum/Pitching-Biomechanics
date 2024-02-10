@@ -12,8 +12,7 @@ import plotly.express as px
 import base64
 
 # load in data
-# poi_metrics = pd.read_csv(r'PATH TO FILE', index_col=False)
-poi_metrics = pd.read_csv(r'C:\Users\adam.bloebaum\Documents\GitHub\biomech\biomech_pitching_poi_metrics.csv', index_col=False)
+poi_metrics = pd.read_csv(r'PATH TO FILE', index_col=False)
 
 # preprocessing
 poi_metrics = poi_metrics.dropna()

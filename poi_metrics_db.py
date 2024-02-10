@@ -9,18 +9,11 @@ db_config = {
     "database": "DATABASE"
 }
 
-db_config = {
-    "host": "10.200.200.107",
-    "user": "scriptuser1",
-    "password": "YabinMarshed2023@#$",
-    "database": "biomech_pitching_db"
-}
-
 # connect to db
 connection = mysql.connector.connect(**db_config)
 
 # set up query
-query = 'SELECT * FROM bp_poi_metrics;'
+query = 'SELECT * FROM TABLE;'
 
 # execute query
 df = pd.read_sql(query, connection)
