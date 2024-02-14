@@ -1,3 +1,8 @@
 biomech_pitching_poi_metrics.csv
 biomech-scorer/playground.ipynb
-playground.ipynb
+nn_data.csv
+nn_features.csv
+nn_labels.csv
+gpu.ipynb
+pitch_velocity_model.pth
+scaler.pk1
