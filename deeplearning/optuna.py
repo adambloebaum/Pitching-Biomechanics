@@ -5,7 +5,7 @@ import torch.optim as optim
 from torch.utils.data import DataLoader, TensorDataset
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
-import deeplearning.optuna_tuning as optuna_tuning
+import deeplearning.optuna as optuna
 
 # Load the scaled datasets
 X_train_scaled = pd.read_csv('X_train_scaled.csv').values
@@ -100,7 +100,7 @@ def objective(trial):
     return val_loss / len(val_loader)
 
 # Creating the Optuna study object
-study = optuna_tuning.create_study(direction='minimize')
+study = optuna.create_study(direction='minimize')
 study.optimize(objective, n_trials=100)
 
 # Best hyperparameters
