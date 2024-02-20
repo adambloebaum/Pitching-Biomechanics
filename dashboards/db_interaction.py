@@ -13,7 +13,7 @@ db_config = {
 connection = mysql.connector.connect(**db_config)
 
 # set up query
-query = 'SELECT * FROM TABLE;'
+query = 'SELECT * FROM table;'
 
 # execute query
 df = pd.read_sql(query, connection)

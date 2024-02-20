@@ -4,5 +4,13 @@ nn_data.csv
 nn_features.csv
 nn_labels.csv
 gpu.ipynb
-pitch_velocity_model.pth
-scaler.pk1
+__pycache__/neural_net.cpython-311.pyc
+X_test_scaled.csv
+X_val_scaled.csv
+X_train_scaled.csv
+y_test.csv
+y_train.csv
+y_val.csv
+sample_poi_metrics.csv
+db.txt
+deeplearning/__pycache__/neural_net.cpython-311.pyc
