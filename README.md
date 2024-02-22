@@ -20,4 +20,4 @@ model parameters are optimized through both trial and error and utilizing the op
 
 local interpretable model-agnostic explanations (LIME) package is used to approximate the neural network with a local, interpretable model. the first value in the test set is used to produce a local explainer model illustrating what went into the model's prediction
 
-a test mean squared error of __10.79__ was achieved, making the model's predictions on average off by __3.28 mph__. the remaining error can be attributed to physical performance attributes like strength and power output as well as the variability involved in the act of pitching
+a test mean squared error of __10.79__ was achieved, making the model's predictions on average off by __3.28 mph__. the remaining error can be accredited to physical performance attributes like strength and power output as well as the variability in thorwing
