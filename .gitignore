@@ -14,3 +14,6 @@ y_val.csv
 db.txt
 deeplearning/__pycache__/neural_net.cpython-311.pyc
 dashboards/sample_poi_metrics.csv
+deeplearning/__pycache__/optuna.cpython-311.pyc
+best_model.pth
+deeplearning/__pycache__/lime.cpython-311.pyc

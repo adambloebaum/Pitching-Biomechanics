@@ -1,6 +1,5 @@
 import torch
 import torch.nn as nn
-import numpy as np
 from lime import lime_tabular
 import pandas as pd
 import joblib
@@ -17,6 +16,9 @@ class PitchVelocityModel(nn.Module):
         self.fc6 = torch.nn.Linear(64, 32)
         self.fc7 = torch.nn.Linear(32, 1)
         
+        # Dropout function
+        self.dropout = nn.Dropout(0.11027576557220337)
+
         # Relu activation function
         self.relu = torch.nn.ReLU()  
                 
@@ -24,8 +26,10 @@ class PitchVelocityModel(nn.Module):
         # Forward pass
         x = self.relu(self.fc1(x))
         x = self.relu(self.fc2(x))
+        x = self.dropout(x)
         x = self.relu(self.fc3(x))
         x = self.relu(self.fc4(x))
+        x = self.dropout(x)
         x = self.relu(self.fc5(x))
         x = self.relu(self.fc6(x))
         x = self.fc7(x)

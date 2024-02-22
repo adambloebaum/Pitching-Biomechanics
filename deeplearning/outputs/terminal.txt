@@ -1,0 +1,35 @@
+Using device: cuda
+Epoch 0, Training Loss: 485.059950483413, Validation Loss: 76.28035599330686
+Epoch 1, Training Loss: 188.4612550326756, Validation Loss: 95.19140617802458
+Epoch 2, Training Loss: 173.7836764698937, Validation Loss: 30.840045479108703
+Epoch 3, Training Loss: 158.590373756772, Validation Loss: 57.24504359263294
+Epoch 4, Training Loss: 153.35815863382248, Validation Loss: 58.996682005108525
+Epoch 5, Training Loss: 148.9765913327535, Validation Loss: 34.31600487906978
+Epoch 6, Training Loss: 153.44160709835234, Validation Loss: 30.12990418919977
+Epoch 7, Training Loss: 139.22165519850594, Validation Loss: 22.362167034509046
+Epoch 8, Training Loss: 141.25963340259733, Validation Loss: 57.97322694310602
+Epoch 9, Training Loss: 130.67490079516458, Validation Loss: 28.45717563269273
+Epoch 10, Training Loss: 106.49817956969852, Validation Loss: 17.02588403449868
+Epoch 11, Training Loss: 104.0934300104777, Validation Loss: 20.658385060868174
+Epoch 12, Training Loss: 102.95035223052615, Validation Loss: 17.088072209988
+Epoch 13, Training Loss: 103.46000438190642, Validation Loss: 18.156540726715665
+Epoch 14, Training Loss: 101.81671264739263, Validation Loss: 16.30866586037402
+Epoch 15, Training Loss: 102.28527858824957, Validation Loss: 15.625561777150855
+Epoch 16, Training Loss: 102.01104688190279, Validation Loss: 17.552057518149322
+Epoch 17, Training Loss: 100.94132572355724, Validation Loss: 16.473165674029655
+Epoch 18, Training Loss: 98.63187533787318, Validation Loss: 20.064678731954324
+Epoch 19, Training Loss: 98.53517429488046, Validation Loss: 24.922028775485057
+Epoch 20, Training Loss: 94.49402263959249, Validation Loss: 15.83408625620716
+Epoch 21, Training Loss: 92.21036072231475, Validation Loss: 15.393301684901399
+Epoch 22, Training Loss: 92.33760094415574, Validation Loss: 14.706900272729262
+Epoch 23, Training Loss: 93.61393782524836, Validation Loss: 16.13968098838374
+Epoch 24, Training Loss: 92.40772513435, Validation Loss: 15.19287261423075
+Epoch 25, Training Loss: 92.6534996168954, Validation Loss: 15.401613982218617
+Epoch 26, Training Loss: 92.60396957851592, Validation Loss: 15.834256568044987
+Epoch 27, Training Loss: 94.13257568450202, Validation Loss: 15.99892441731579
+Epoch 28, Training Loss: 92.72197525387719, Validation Loss: 15.999324636639288
+Epoch 29, Training Loss: 92.76950112751553, Validation Loss: 15.358111507487747
+Epoch 30, Training Loss: 93.53887745766413, Validation Loss: 14.827976019877308
+Epoch 31, Training Loss: 93.08341449555897, Validation Loss: 15.25619092977272
+Early stopping triggered at epoch 32
+Test Mean Squared Error: 10.786394119262695

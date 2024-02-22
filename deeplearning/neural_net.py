@@ -96,6 +96,9 @@ class PitchVelocityModel(nn.Module):
         self.fc5 = torch.nn.Linear(128, 64)
         self.fc6 = torch.nn.Linear(64, 32)
         self.fc7 = torch.nn.Linear(32, 1)
+
+        # Dropout function
+        self.dropout = nn.Dropout(0.11027576557220337)
         
         # Relu activation function
         self.relu = torch.nn.ReLU()  
@@ -104,8 +107,10 @@ class PitchVelocityModel(nn.Module):
         # Forward pass
         x = self.relu(self.fc1(x))
         x = self.relu(self.fc2(x))
+        x = self.dropout(x)
         x = self.relu(self.fc3(x))
         x = self.relu(self.fc4(x))
+        x = self.dropout(x)
         x = self.relu(self.fc5(x))
         x = self.relu(self.fc6(x))
         x = self.fc7(x)
@@ -121,73 +126,86 @@ model.to(device)
 
 # Mean Squared Error Loss for regression
 criterion = nn.MSELoss()
-optimizer = optim.Adam(model.parameters(), lr=0.005221631343320849)
+optimizer = optim.Adam(model.parameters(), lr=0.0028718211893764933)
+scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.1)
 
 # List to store losses
-losses = []
+train_losses = []
+val_losses = []
+
+# Early stopping parameters
+best_val_loss = float('inf')
+patience, trials = 10, 0
 
 epochs = 200
 for epoch in range(epochs + 1):
+    # Training phase
     model.train()
-    total_loss = 0
+    total_train_loss = 0
     for batch in train_loader:
-        # Move the data to the device
         X_batch, y_batch = batch[0].to(device), batch[1].to(device)
-
         optimizer.zero_grad()
-
-        # Forward pass
         y_pred = model(X_batch)
         loss = criterion(y_pred.squeeze(), y_batch)
-
-        # Backward pass and optimize
         loss.backward()
         optimizer.step()
+        total_train_loss += loss.item()
+    scheduler.step()
+    avg_train_loss = total_train_loss / len(train_loader)
+    train_losses.append(avg_train_loss)
 
-        total_loss += loss.item()
+    # Validation phase
+    model.eval()
+    total_val_loss = 0
+    with torch.no_grad():
+        for X_batch, y_batch in val_loader:
+            X_batch, y_batch = X_batch.to(device), y_batch.to(device)
+            y_pred = model(X_batch)
+            val_loss = criterion(y_pred.squeeze(), y_batch)
+            total_val_loss += val_loss.item()
+    avg_val_loss = total_val_loss / len(val_loader)
+    val_losses.append(avg_val_loss)
 
-    avg_loss = total_loss / len(train_loader)
-    losses.append(avg_loss)
+    # Early stopping check
+    if avg_val_loss < best_val_loss:
+        best_val_loss = avg_val_loss
+        trials = 0
+        torch.save(model.state_dict(), 'best_model.pth')  # Save the best model
+    else:
+        trials += 1
+        if trials >= patience:
+            print(f'Early stopping triggered at epoch {epoch}')
+            break
 
-    if epoch % 10 == 0:
-        print(f'Epoch {epoch}, Loss: {avg_loss}')
+    print(f'Epoch {epoch}, Training Loss: {avg_train_loss}, Validation Loss: {avg_val_loss}')
 
-# Plotting the training loss
-plt.plot(losses)
-plt.title('Training Loss per Epoch')
+# Load the best model
+model.load_state_dict(torch.load('best_model.pth'))
+
+# Plotting the training and validation losses
+plt.figure()
+plt.plot(train_losses, label='Training Loss')
+plt.plot(val_losses, label='Validation Loss')
+plt.title('Training and Validation Loss per Epoch')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
-plt.savefig('PATH TO PLOT.png')
+plt.legend()
+plt.savefig('loss_plot.png')
 
-# Set the model to evaluation mode
+# Evaluate on Test Set
 model.eval()
-
-# Initialize a list to store predictions
 y_pred_list = []
-
-# No gradients need to be calculated during evaluation
 with torch.no_grad():
-    for X_batch, _ in val_loader:
-        # Move the batch to the device the model is on (GPU if available)
+    for X_batch, _ in test_loader:
         X_batch = X_batch.to(device)
+        y_test_pred = model(X_batch)
+        y_pred_list.append(y_test_pred.cpu().numpy())
 
-        # Perform the forward pass and get the predictions
-        y_val_pred = model(X_batch)
-
-        # Move the predictions back to CPU and convert them to numpy for further processing
-        y_pred_list.append(y_val_pred.cpu().numpy())
-
-# Flatten the list of arrays and convert it to a single numpy array
 y_pred_flat = np.concatenate(y_pred_list).ravel()
-
-# Ensure y_val_tensor is also a numpy array and has the same shape
-y_val_numpy = y_val_tensor.cpu().numpy().ravel()
-
-# Compute MSE
-mse = mean_squared_error(y_val_numpy, y_pred_flat)
-
-print(f'Mean Squared Error: {mse}')
+y_test_numpy = y_test_tensor.cpu().numpy().ravel()
+mse = mean_squared_error(y_test_numpy, y_pred_flat)
+print(f'Test Mean Squared Error: {mse}')
 
 # Save scalar and model
 joblib.dump(scaler, 'PATH TO SCALAR.pk1')
-torch.save(model.state_dict(), 'PATH TO MODEL.pth')
+torch.save(model.state_dict(), 'pitch_velocity_model.pth')
