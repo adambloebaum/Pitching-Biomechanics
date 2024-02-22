@@ -1,6 +1,6 @@
 # biomech
 
-a collection of biomechanics related projects, some of which use the openbiomechanics project data (see .bib)
+predictive models and dashboards using biomechanics data
 
 ## dashboards
 
