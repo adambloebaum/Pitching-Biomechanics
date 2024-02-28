@@ -1,6 +1,11 @@
 # biomech
 
-## deep learning
+### Table of Contents
+
+- [Deep Learning](#deeplearning)
+- [Dashboards](#dashboards)
+
+## Deep Learning
 This project involves the development of a neural network model for predicting pitch velocity in baseball. The project includes three main components:
 1. `neural_net.py`: This script includes data handling (including database interactions and data preprocessing), model creation using PyTorch, and training processes.
 3. `optuna_tuning.py`: This script focuses on model tuning using Optuna, a hyperparameter optimization framework, along with data handling and model evaluation.
@@ -143,3 +148,165 @@ This file includes the definition of the Optuna objective function and the execu
 - **Analysis of Residual Error**: The residual error can be attributed to factors beyond the model's scope, such as physical performance attributes like strength and power output, as well as the inherent variability in throwing.
 
 ## Dashboards
+
+This project is a suite of Python scripts designed to process, analyze, and visualize biomechanics data. It comprises three main components:
+
+1. **biomech_viewer.py**: A Dash-based interactive dashboard for visualizing biomechanical statistical relationships with a scatter plot and histogram.
+2. **composite_score_dash.py**: A Dash-based interactive dashboard for displaying an athlete's composite biomechnic scores.
+3. **db_interaction.py**: A script for database interactions, specifically with MySQL databases, to retrieve biomechanics data.
+
+### Features
+- Interactive data visualization with Dash and Plotly.
+- Advanced statistical analysis and data processing.
+- MySQL database integration for efficient data handling.
+
+### Configuration
+- **Python Installation**: Ensure Python is installed. [Python.org](https://www.python.org/)
+- **Library Installation**: Install required libraries: Dash, Plotly, Pandas, MySQL Connector, and others as needed.
+
+### Usage
+- Execute `biomech_viewer.py` to launch the statistical biomechanics visualization dashboard.
+- Execute `composite_score_dash.py` to launch the biomechanics composite score dashboard.
+- Use `db_interaction.py` for database operations related to biomechanics data.
+
+### Files Description
+
+#### `biomech_viewer.py`
+
+`biomech_viewer.py` is a script designed for launching an interactive dashboard for pitching biomehcanics data. It utilizes Dash and Plotly for creating a web-based application. Here's a detailed breakdown of its key features:
+
+- **Importing Libraries**:
+  The script starts by importing necessary libraries like Dash, Plotly, and Pandas.
+  ```python
+  import dash
+  from dash import html, dcc
+  import plotly.express as px
+  import pandas as pd
+  ```
+
+- **Initializing the Dash Application**:
+  An instance of the Dash application is created with a specified name.
+  ```python
+  app = dash.Dash('Biomech Viewer')
+  ```
+
+- **Loading and Preprocessing Data**:
+  Data is loaded from a CSV file and preprocessed for visualization.
+  ```python
+  poi_metrics = pd.read_csv('PATH TO FILE', index_col=False)
+  # Preprocessing steps like dropping NaNs, filtering, etc.
+  ```
+
+- **Creating a Scatter Plot and Histogram**:
+  A function to create a scatter plot using Plotly's express interface is defined.
+  ```python
+  def create_scatter_plot():
+      fig = px.scatter(poi_metrics, x='pitch_speed_mph', y=metrics[2], trendline='ols')
+      return fig
+  ```
+
+- **Dashboard Layout**:
+  The layout of the Dash app is defined, including various HTML and Dash components. In addition to scatter plots, the script also features a histogram for displaying distributions of a selected metric.
+  ```python
+  def create_scatter_plot():
+    fig = px.scatter(poi_metrics, x='pitch_speed_mph', y=metrics[2], trendline='ols')
+    return fig
+  
+  def create_histogram():
+    fig = px.histogram(poi_metrics, x=metrics[2])
+    return fig
+  ```
+
+- **Callback Functions for Interactivity**:
+  Callbacks are used to update the dashboard's components based on user interaction.
+  ```python
+  @app.callback(
+    Output('scatter_plot', 'figure'),
+    [Input('metric_dropdown', 'value')]
+  )
+  def update_scatter_plot(value):
+      # Update logic for scatter plot...
+
+  @app.callback(
+      Output('histogram', 'figure'),
+      [Input('metric_dropdown_2', 'value')]
+  )
+  def update_histogram(value):
+      # Update logic for histogram...
+  ```
+
+- **Running the App**:
+  Finally, the app is configured to run, usually in debug mode during development.
+  ```python
+  if __name__ == '__main__':
+      app.run_server(debug=True)
+  ```
+
+#### `composite_score_dash.py`
+
+`composite_score_dash.py` is a script designed for launching an interactive dashboard for viewing composite bioemchanics scores for a particular pitch in the data using Dash. Here's a breakdown of its key features:
+
+- **Importing Libraries**:
+  The script starts with the importation of necessary libraries, including Dash, Plotly, Pandas, and statistical analysis tools.
+  ```python
+  import dash
+  from dash import html, dcc
+  import plotly.express as px
+  import pandas as pd
+  # ... other imports like scipy, numpy, etc. ...
+  ```
+
+- **Data Loading and Preprocessing**:
+  Data is loaded and preprocessed for analysis. This involves reading data, handling missing values, and selecting relevant data types.
+  ```python
+  poi_metrics = pd.read_csv('PATH TO FILE', index_col=False)
+  # Data preprocessing steps
+  ```
+
+- **Score Calculation Function**:
+  The script includes a function to calculate composite scores based on specific metrics. This involves statistical calculations and percentile computations.
+  ```python
+  def create_scores(df):
+      # Score calculation logic
+      # ...
+      return scores
+  ```
+
+- **Creating a Radial Plot**:
+  A radial plot is created using Plotly, providing a visual representation of the composite scores.
+  ```python
+  def create_radial_plot():
+      fig = px.line_polar(...)
+      # Configuration of the radial plot
+      return fig
+  ```
+
+- **Dashboard Layout**:
+  The Dash app layout is set up, encompassing elements like headers, file upload components, and graphs.
+  ```python
+  app.layout = html.Div([
+      html.H1('Title', style={...}),
+      dcc.Upload(...),
+      dcc.Graph(id='radial-plot', figure=create_radial_plot(), ...)
+      # ... other layout elements ...
+  ])
+  ```
+
+- **Callback for Updating the Radial Plot**:
+  A callback function is defined to update the radial plot based on user-uploaded data.
+  ```python
+  @app.callback(
+      Output('radial-plot', 'figure'),
+      [Input('upload-data', 'contents'),
+      State('upload-data', 'filename')]
+  )
+  def update_radial_plot(contents, filename):
+      # Logic to update the plot based on the uploaded data
+  ```
+
+- **Running the Application**:
+  The script includes code to run the Dash app, typically in debug mode for development purposes.
+  ```python
+  if __name__ == '__main__':
+      app.run_server(debug=True)
+  ```
