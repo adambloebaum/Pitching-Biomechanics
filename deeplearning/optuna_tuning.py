@@ -7,6 +7,7 @@ from torch.utils.data import DataLoader, TensorDataset
 from sklearn.metrics import mean_squared_error
 from sklearn.model_selection import train_test_split
 import optuna
+import os
 
 # Load the scaled datasets
 X_train_scaled = pd.read_csv('X_train_scaled.csv').values
@@ -132,8 +133,21 @@ def objective(trial):
 
 # Creating the Optuna study object
 study = optuna.create_study(direction='minimize')
-study.optimize(objective, n_trials=400, n_jobs=-1)
+study.optimize(objective, n_trials=500, n_jobs=-1)
 
 # Best hyperparameters
 best_params = study.best_params
 print('Best trial:', best_params)
+
+# Convert the dictionary of best parameters to a string
+best_params_str = "\n".join(f"{key}: {value}" for key, value in best_params.items())
+
+# Get the directory where the script is located
+script_dir = os.path.dirname(os.path.abspath(__file__))
+
+# Define the path for the output file
+output_file_path = os.path.join(script_dir, 'best_params.txt')
+
+# Write to a text file
+with open(output_file_path, "w") as file:
+    file.write(best_params_str)
