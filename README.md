@@ -45,7 +45,9 @@ To run this project, you need to have Python installed on your system along with
 
 ### Usage
 Run `neural_net.py` to train and evaluate the model.
+
 Run `optuna_tuning.py` to fine-tune model hyperparameters.
+
 Run `lime_explainer.py` to create model explanation visualizations.
 
 ### Files Description
