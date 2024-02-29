@@ -10,8 +10,9 @@ from sklearn.model_selection import train_test_split
 from sklearn.preprocessing import StandardScaler
 import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
+import os
 
-# Configure and connect to database
+'''# Configure and connect to database
 db_config = {
     "host": "HOST",
     "user": "USER",
@@ -22,7 +23,9 @@ db_config = {
 connection = mysql.connector.connect(**db_config)
 query = 'SELECT * FROM table INNER JOIN table ON table.session = table.session;'
 df = pd.read_sql(query, connection)
-connection.close()
+connection.close()'''
+
+df = pd.read_csv('df.csv')
 
 # Drop columns with nan values
 columns_with_nan = df.columns[df.isna().any()].tolist()
@@ -190,7 +193,13 @@ plt.title('Training and Validation Loss per Epoch')
 plt.xlabel('Epoch')
 plt.ylabel('Loss')
 plt.legend()
-plt.savefig('loss_plot.png')
+
+# Get the directory of the current script
+script_dir = os.path.dirname(os.path.abspath(__file__))
+outputs_dir = os.path.join(script_dir, 'outputs')
+plot_path = os.path.join(outputs_dir, 'loss_plot.png')
+
+plt.savefig(plot_path)
 
 # Evaluate on Test Set
 model.eval()
@@ -206,6 +215,10 @@ y_test_numpy = y_test_tensor.cpu().numpy().ravel()
 mse = mean_squared_error(y_test_numpy, y_pred_flat)
 print(f'Test Mean Squared Error: {mse}')
 
-# Save scalar and model
-joblib.dump(scaler, 'PATH TO SCALAR.pk1')
-torch.save(model.state_dict(), 'pitch_velocity_model.pth')
+# Paths for saving the scaler and the model
+scaler_path = os.path.join(script_dir, 'scaler.pk1')
+model_path = os.path.join(script_dir, 'pitch_velocity_model.pth')
+
+# Save the scaler and the model
+joblib.dump(scaler, scaler_path)
+torch.save(model.state_dict(), model_path)

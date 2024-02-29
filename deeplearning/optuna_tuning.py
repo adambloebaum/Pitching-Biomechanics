@@ -33,37 +33,35 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 # Initialize model
 class PitchVelocityModel(nn.Module):
-    def __init__(self, num_features, dropout_prob):
+    def __init__(self, num_features, layer_sizes, dropout_prob):
         super(PitchVelocityModel, self).__init__()
-        # Fully connected layers
-        self.fc1 = torch.nn.Linear(num_features, 1024)
-        self.fc2 = torch.nn.Linear(1024, 512)
-        self.fc3 = torch.nn.Linear(512, 256)
-        self.fc4 = torch.nn.Linear(256, 128)
-        self.fc5 = torch.nn.Linear(128, 64)
-        self.fc6 = torch.nn.Linear(64, 32)
-        self.fc7 = torch.nn.Linear(32, 1)
         
-        # Dropout function
+        # Assuming layer_sizes is a list with sizes for fc1, fc2, fc3, fc4, fc5, fc6 respectively
+        self.fc1 = nn.Linear(num_features, layer_sizes[0])
+        self.fc2 = nn.Linear(layer_sizes[0], layer_sizes[1])
+        self.fc3 = nn.Linear(layer_sizes[1], layer_sizes[2])
+        self.fc4 = nn.Linear(layer_sizes[2], layer_sizes[3])
+        self.fc5 = nn.Linear(layer_sizes[3], layer_sizes[4])
+        self.fc6 = nn.Linear(layer_sizes[4], layer_sizes[5])
+        self.fc7 = nn.Linear(layer_sizes[5], 1)
+
+        # Dropout function, only for fc2 and fc4
         self.dropout = nn.Dropout(dropout_prob)
 
-        # Relu activation function
-        self.relu = torch.nn.ReLU()  
-                
+        # ReLU activation function
+        self.relu = nn.ReLU()
+
     def forward(self, x):
-        # Forward pass
         x = self.relu(self.fc1(x))
-        x = self.relu(self.fc2(x))
-        x = self.dropout(x)
+        x = self.dropout(self.relu(self.fc2(x)))  # Dropout after fc2
         x = self.relu(self.fc3(x))
-        x = self.relu(self.fc4(x))
-        x = self.dropout(x)
+        x = self.dropout(self.relu(self.fc4(x)))  # Dropout after fc4
         x = self.relu(self.fc5(x))
         x = self.relu(self.fc6(x))
         x = self.fc7(x)
-        
-        return x
 
+        return x
+    
 # Objective function for Optuna
 def objective(trial):
     # Hyperparameters to be tuned
@@ -71,12 +69,22 @@ def objective(trial):
     lr = trial.suggest_float('lr', 1e-3, 1e-1, log=True)
     dropout_prob = trial.suggest_float('dropout_prob', 0.1, 0.5)
 
+    # Define the layer sizes (you can also optimize these if needed)
+    layer_sizes = [
+        trial.suggest_int('fc1_units', 32, 1024),
+        trial.suggest_int('fc2_units', 32, 1024),
+        trial.suggest_int('fc3_units', 32, 1024),
+        trial.suggest_int('fc4_units', 32, 1024),
+        trial.suggest_int('fc5_units', 32, 1024),
+        trial.suggest_int('fc6_units', 32, 1024)
+    ]
+
     # Data loaders
     train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=True)
     val_loader = DataLoader(val_dataset, batch_size=batch_size)
 
-    # Model setup
-    model = PitchVelocityModel(X_train_scaled.shape[1], dropout_prob)
+    # Initialize the model with the suggested layer sizes and dropout probability
+    model = PitchVelocityModel(X_train_tensor.shape[1], layer_sizes, dropout_prob)
     model.to(device)
 
     # Loss and optimizer
