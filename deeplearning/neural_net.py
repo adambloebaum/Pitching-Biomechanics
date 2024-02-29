@@ -12,6 +12,8 @@ import matplotlib.pyplot as plt
 from sklearn.metrics import mean_squared_error
 import os
 
+print("Loading data...")
+
 '''# Configure and connect to database
 db_config = {
     "host": "HOST",
@@ -25,14 +27,15 @@ query = 'SELECT * FROM table INNER JOIN table ON table.session = table.session;'
 df = pd.read_sql(query, connection)
 connection.close()'''
 
-df = pd.read_csv('df.csv')
+df = pd.read_csv('df.csv', na_values=['None', 'NaN'])
 
 # Drop columns with nan values
 columns_with_nan = df.columns[df.isna().any()].tolist()
 cleaned_df = df.drop(columns=columns_with_nan)
 
 # Drop unneeded columns
-columns_to_exclude = ['session_pitch', 'session', 'p_throws', 'pitch_type', 'session', 'session_date', 'user', 'session_tag', 'session_location', 'playing_level', 'irb']
+#columns_to_exclude = ['session_pitch', 'session', 'p_throws', 'pitch_type', 'session', 'session_date', 'user', 'session_tag', 'session_location', 'playing_level', 'irb']
+columns_to_exclude = ['session_pitch', 'session', 'p_throws', 'session', 'session_date', 'user', 'session_location', 'playing_level', 'irb']
 cleaned_df = cleaned_df.drop(columns=columns_to_exclude)
 
 # Engineer features relative to body weight
@@ -141,6 +144,7 @@ best_val_loss = float('inf')
 patience, trials = 10, 0
 
 epochs = 200
+print("Beginning training...")
 for epoch in range(epochs + 1):
     # Training phase
     model.train()
@@ -202,7 +206,7 @@ plot_path = os.path.join(outputs_dir, 'loss_plot.png')
 plt.savefig(plot_path)
 
 # Evaluate on Test Set
-model.eval()
+'''model.eval()
 y_pred_list = []
 with torch.no_grad():
     for X_batch, _ in test_loader:
@@ -213,7 +217,7 @@ with torch.no_grad():
 y_pred_flat = np.concatenate(y_pred_list).ravel()
 y_test_numpy = y_test_tensor.cpu().numpy().ravel()
 mse = mean_squared_error(y_test_numpy, y_pred_flat)
-print(f'Test Mean Squared Error: {mse}')
+print(f'Test Mean Squared Error: {mse}')'''
 
 # Paths for saving the scaler and the model
 scaler_path = os.path.join(script_dir, 'scaler.pk1')

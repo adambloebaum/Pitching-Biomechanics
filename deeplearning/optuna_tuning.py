@@ -30,6 +30,7 @@ val_dataset = TensorDataset(X_val_tensor, y_val_tensor)
 
 # Device configuration
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+print("Using device:", device)
 
 # Initialize model
 class PitchVelocityModel(nn.Module):
@@ -71,12 +72,12 @@ def objective(trial):
 
     # Define the layer sizes (you can also optimize these if needed)
     layer_sizes = [
-        trial.suggest_int('fc1_units', 32, 1024),
+        trial.suggest_int('fc1_units', 512, 1024),
         trial.suggest_int('fc2_units', 32, 1024),
         trial.suggest_int('fc3_units', 32, 1024),
         trial.suggest_int('fc4_units', 32, 1024),
         trial.suggest_int('fc5_units', 32, 1024),
-        trial.suggest_int('fc6_units', 32, 1024)
+        trial.suggest_int('fc6_units', 32, 128)
     ]
 
     # Data loaders
@@ -131,7 +132,7 @@ def objective(trial):
 
 # Creating the Optuna study object
 study = optuna.create_study(direction='minimize')
-study.optimize(objective, n_trials=400)
+study.optimize(objective, n_trials=400, n_jobs=-1)
 
 # Best hyperparameters
 best_params = study.best_params
