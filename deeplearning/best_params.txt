@@ -1,0 +1,9 @@
+batch_size: 32
+lr: 0.005457544627826253
+dropout_prob: 0.13113473600982906
+fc1_units: 561
+fc2_units: 526
+fc3_units: 33
+fc4_units: 545
+fc5_units: 808
+fc6_units: 97

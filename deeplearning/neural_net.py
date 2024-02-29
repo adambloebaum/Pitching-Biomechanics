@@ -14,7 +14,7 @@ import os
 
 print("Loading data...")
 
-'''# Configure and connect to database
+# Configure and connect to database
 db_config = {
     "host": "HOST",
     "user": "USER",
@@ -25,17 +25,14 @@ db_config = {
 connection = mysql.connector.connect(**db_config)
 query = 'SELECT * FROM table INNER JOIN table ON table.session = table.session;'
 df = pd.read_sql(query, connection)
-connection.close()'''
-
-df = pd.read_csv('df.csv', na_values=['None', 'NaN'])
+connection.close()
 
 # Drop columns with nan values
 columns_with_nan = df.columns[df.isna().any()].tolist()
 cleaned_df = df.drop(columns=columns_with_nan)
 
 # Drop unneeded columns
-#columns_to_exclude = ['session_pitch', 'session', 'p_throws', 'pitch_type', 'session', 'session_date', 'user', 'session_tag', 'session_location', 'playing_level', 'irb']
-columns_to_exclude = ['session_pitch', 'session', 'p_throws', 'session', 'session_date', 'user', 'session_location', 'playing_level', 'irb']
+columns_to_exclude = ['session_pitch', 'session', 'p_throws', 'pitch_type', 'session', 'session_date', 'user', 'session_tag', 'session_location', 'playing_level', 'irb']
 cleaned_df = cleaned_df.drop(columns=columns_to_exclude)
 
 # Engineer features relative to body weight
@@ -95,16 +92,16 @@ class PitchVelocityModel(nn.Module):
     def __init__(self, num_features):
         super(PitchVelocityModel, self).__init__()
         # Fully connected layers
-        self.fc1 = torch.nn.Linear(num_features, 1024)
-        self.fc2 = torch.nn.Linear(1024, 512)
-        self.fc3 = torch.nn.Linear(512, 256)
-        self.fc4 = torch.nn.Linear(256, 128)
-        self.fc5 = torch.nn.Linear(128, 64)
-        self.fc6 = torch.nn.Linear(64, 32)
-        self.fc7 = torch.nn.Linear(32, 1)
+        self.fc1 = torch.nn.Linear(num_features, 561)
+        self.fc2 = torch.nn.Linear(561, 526)
+        self.fc3 = torch.nn.Linear(526, 33)
+        self.fc4 = torch.nn.Linear(33, 545)
+        self.fc5 = torch.nn.Linear(545, 808)
+        self.fc6 = torch.nn.Linear(808, 97)
+        self.fc7 = torch.nn.Linear(97, 1)
 
         # Dropout function
-        self.dropout = nn.Dropout(0.11027576557220337)
+        self.dropout = nn.Dropout(0.13113473600982906)
         
         # Relu activation function
         self.relu = torch.nn.ReLU()  
@@ -132,7 +129,7 @@ model.to(device)
 
 # Mean Squared Error Loss for regression
 criterion = nn.MSELoss()
-optimizer = optim.Adam(model.parameters(), lr=0.0028718211893764933)
+optimizer = optim.Adam(model.parameters(), lr=0.005457544627826253)
 scheduler = optim.lr_scheduler.StepLR(optimizer, step_size=10, gamma=0.1)
 
 # List to store losses
@@ -206,7 +203,7 @@ plot_path = os.path.join(outputs_dir, 'loss_plot.png')
 plt.savefig(plot_path)
 
 # Evaluate on Test Set
-'''model.eval()
+model.eval()
 y_pred_list = []
 with torch.no_grad():
     for X_batch, _ in test_loader:
@@ -217,7 +214,7 @@ with torch.no_grad():
 y_pred_flat = np.concatenate(y_pred_list).ravel()
 y_test_numpy = y_test_tensor.cpu().numpy().ravel()
 mse = mean_squared_error(y_test_numpy, y_pred_flat)
-print(f'Test Mean Squared Error: {mse}')'''
+print(f'Test Mean Squared Error: {mse}')
 
 # Paths for saving the scaler and the model
 scaler_path = os.path.join(script_dir, 'scaler.pk1')
